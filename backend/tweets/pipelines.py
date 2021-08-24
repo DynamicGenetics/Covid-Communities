@@ -103,8 +103,8 @@ def _get_welsh_tweets(data: pd.DataFrame, col: str = "place.full_name"):
 
 
 def _create_datetime_index(data: pd.DataFrame) -> pd.DataFrame:
-    """ Using the 'created_at' column from a Twitter export,
-    makes this the index column in a pandas datetime format. """
+    """Using the 'created_at' column from a Twitter export,
+    makes this the index column in a pandas datetime format."""
 
     # Parse 'created at' to pandas datetime - requires 'from datetime import datetime'
     data["created_at"] = pd.to_datetime(data["created_at"])
@@ -116,9 +116,9 @@ def _create_datetime_index(data: pd.DataFrame) -> pd.DataFrame:
 def _tidy_text_cols(
     data: pd.DataFrame, col: str = "extended_tweet.full_text"
 ) -> pd.DataFrame:
-    """ Uses values from the short ('text') and extended
+    """Uses values from the short ('text') and extended
     ('extended_tweet.full_text') columns to make a
-    single 'text' column with the full version of every tweet. """
+    single 'text' column with the full version of every tweet."""
 
     # Keep the data for where 'tweet_full' is not used
     keep = pd.isnull(data[col])
@@ -131,7 +131,7 @@ def _tidy_text_cols(
 
 
 def _bbox_geojson(data: pd.DataFrame, col: str = "place.bounding_box.coordinates"):
-    """ This function will reformat the bounding boxes from strings to lists of lists,
+    """This function will reformat the bounding boxes from strings to lists of lists,
     and will append the first coordinate as the last one to allow for
     geojson conversion."""
 
@@ -160,9 +160,9 @@ def _bbox_tuple(data: pd.DataFrame) -> pd.DataFrame:
 
 
 def convert_coordinates(data, col="geo.coordinates"):
-    """ Takes a Pandas dataframe with a column geo.coordinates (col)
+    """Takes a Pandas dataframe with a column geo.coordinates (col)
     and adds the lat and long to their own columns
-    for easy conversion to geojson. """
+    for easy conversion to geojson."""
 
     def convert_coords(geo_coords):
         if not geo_coords:
@@ -190,7 +190,7 @@ def convert_coordinates(data, col="geo.coordinates"):
 def match_local_authorities(
     bbox: BoundingBox, la_df: pd.DataFrame, return_all: bool = False
 ) -> MatchingLA:
-    """ Get the Intersection Over Union for the the Local Authorities that
+    """Get the Intersection Over Union for the the Local Authorities that
     overlap with the bounding box. Requires 'geometry' col in LA geopandas df.
     Returns df of local authorities of interest.
 

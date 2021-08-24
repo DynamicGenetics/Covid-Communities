@@ -11,8 +11,8 @@ import json
 
 
 def analyse_sentiment(data, col="text"):
-    """ Given a Pandas dataframe with col 'tweet_text', this will apply the vaderSentiment dictionary
-     in a new column called 'vader'. """
+    """Given a Pandas dataframe with col 'tweet_text', this will apply the vaderSentiment dictionary
+    in a new column called 'vader'."""
 
     from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
@@ -36,8 +36,8 @@ def analyse_sentiment(data, col="text"):
 
 
 def split_coords(data, col="geo.coordinates"):
-    """ Takes a Pandas dataframe with a column geo.coordinates (col) and adds the lat and long to their own columns
-    for easy conversion to geojson. """
+    """Takes a Pandas dataframe with a column geo.coordinates (col) and adds the lat and long to their own columns
+    for easy conversion to geojson."""
 
     # Split the string on the comma
     data["long"], data["lat"] = data[col].str.split(",", 1).str
@@ -50,8 +50,8 @@ def split_coords(data, col="geo.coordinates"):
 
 
 def write_bbox_geojson(data, col="bbox_geojson"):
-    """ Given a correctly formatted column of bbox polygons, this will convert them to
-    a geojson object, and write it out to a file. """
+    """Given a correctly formatted column of bbox polygons, this will convert them to
+    a geojson object, and write it out to a file."""
 
     # Make a Mutlipolygon from the values.
     features = Feature(geometry=MultiPolygon(data[col].tolist()))
@@ -69,3 +69,27 @@ def write_bbox_geojson(data, col="bbox_geojson"):
         json.dump(feature_collection, f, ensure_ascii=False)
 
     print("Written object to 'tweets_bboxes.geojson'")
+
+
+# In progress - how to define how certain the match is
+def class_uncertainty(laoi):
+    """Roughly calculate how certain the classification is based on distances between
+    the likelihood of the potentially overlapping LA boundaries."""
+
+    # Sort dataframe by highest to lowest
+    laoi = laoi.sort_values(by="likelihood", ascending=False)
+    # Get the list of values
+    a = laoi["likelihood"]
+    a.reset_index().drop()
+    del laoi["index"]
+
+    # If there was only one, the
+    if len(a) == 1:
+        return 1
+    elif len(a) == 2:
+        return "only two"  # decide penalty function
+    else:
+        # Get the difference between each sequential number
+        b = a.diff(periods=-1)
+        # Divide the distance between the first and second number by the
+        b["likelihood"][0] / b[1:].mean()

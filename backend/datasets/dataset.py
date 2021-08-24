@@ -653,8 +653,7 @@ class MasterDataset:
 
     @staticmethod
     def _create_over_65_col(data):
-        """Create a new over_65 column in the master and drop the redundant columns.
-        """
+        """Create a new over_65 column in the master and drop the redundant columns."""
         # Crate new 'over 65' variable for the population data (adding up all
         # singlar age cols from 65:90+)
         age_cols = data.columns[

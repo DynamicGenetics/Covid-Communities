@@ -1,9 +1,11 @@
-#deprec (chris' temporary bin folders)
-data/deprec/
+
 # leriomaggio: ignored as this is a folder for local dev exps.
 data/local
 # Nina local development data folder
 backend/datasets/data/static/source/local
+
+# Ignore any database files
+*.db
 
 # LA Keys
 data/la_keys.geojson

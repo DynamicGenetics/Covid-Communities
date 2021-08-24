@@ -305,13 +305,7 @@ class DataDashboard:
         """
         if not filepath:
             filepath = os.path.join(
-                BASE_FOLDER,
-                "..",
-                "..",
-                "frontend",
-                "map",
-                "data",
-                "data.json",
+                BASE_FOLDER, "..", "..", "frontend", "map", "data", "data.json",
             )
 
         with open(filepath, "w") as outfile:
@@ -408,6 +402,24 @@ COVID_CASES = Variable(
     data_type="per100k",
 )
 
+VAX_DOSE1 = Variable(
+    data=LA_LIVE_MASTER["vax1_pct"],
+    label="Vaccine Uptake Dose 1 (per 100 pop)",
+    data_class="support",
+    la_and_lsoa=False,
+    invert=False,
+    data_type="percentage",
+)
+
+VAX_DOSE2 = Variable(
+    data=LA_LIVE_MASTER["vax2_pct"],
+    label="Vaccine Update Dose 2 (per 100 pop)",
+    data_class="support",
+    la_and_lsoa=False,
+    invert=False,
+    data_type="percentage",
+)
+
 GROUPS = Variable(
     data=LA_LIVE_MASTER["groups_count"],
     label="Community Support Groups (per 100 pop)",
@@ -473,11 +485,22 @@ ZOE_SUPPORT = Variable(
     data_type="percentage",
 )
 
+VADER_SENTIMENT = Variable(
+    data=LA_LIVE_MASTER["vader_comp"],
+    label="Avg Twitter Sentiment Past 7 Days",
+    data_class="support",
+    la_and_lsoa=False,
+    invert=False,
+    data_type="percentage",
+)
+
 
 LA_VARBS = Variables(
     (
         VOLS_TOTAL,
         VOLS_INCREASE,
+        VAX_DOSE1,
+        VAX_DOSE2,
         GROUPS,
         TWEETS,
         BELONGING,
@@ -490,16 +513,11 @@ LA_VARBS = Variables(
         GP_DIGITAL,
         HAS_INTERNET,
         ZOE_SUPPORT,
+        VADER_SENTIMENT,
     )
 )
 
-LSOA_VARBS = Variables(
-    (
-        LSOA_WIMD,
-        LSOA_OVER_65,
-        LSOA_POPDENSITY,
-    )
-)
+LSOA_VARBS = Variables((LSOA_WIMD, LSOA_OVER_65, LSOA_POPDENSITY,))
 
 # Finally, create the data with the json function!
 DATA = DataDashboard(la_data=LA_VARBS, lsoa_data=LSOA_VARBS)

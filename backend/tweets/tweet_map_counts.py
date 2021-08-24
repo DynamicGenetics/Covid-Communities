@@ -8,8 +8,7 @@ from datasets import load_tweets, load_annotated_tweets
 
 # Create the full dataset of annotated tweets and get +ve ones
 def generate_map_counts():
-    """Writes out percentage of positive user tweets to file
-    """
+    """Writes out percentage of positive user tweets to file"""
     # Now load the full tweet dataset and find unique users per LA
     tweets = load_tweets()
     tweets = TwitterPipeline().apply(tweets.data, verbosity=2)
